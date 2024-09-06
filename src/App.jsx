@@ -1,9 +1,9 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   OrbitControls,
-  PerspectiveCamera ,
+  PerspectiveCamera,
   useTexture,
-  Text
+  Text,
 } from "@react-three/drei";
 
 import { useRef } from "react";
@@ -12,11 +12,11 @@ function Torus() {
   const torus = useRef();
   useFrame((state, delta) => {
     torus.current.rotation.y += delta * 0.1;
-    torus.current.rotation.z += delta *2;
+    torus.current.rotation.z += delta * 2;
   });
   return (
-    <mesh ref={torus} rotation={[Math.PI / 4 , 0, 0]}>
-      <torusGeometry  rotateX={0.5} args={[3, 0.01]}></torusGeometry>
+    <mesh ref={torus} rotation={[Math.PI / 4, 0, 0]}>
+      <torusGeometry rotateX={0.5} args={[3, 0.01]}></torusGeometry>
       <meshStandardMaterial color={"white"}></meshStandardMaterial>
     </mesh>
   );
@@ -39,7 +39,25 @@ function Sphere() {
       <meshStandardMaterial
         map={texture}
         normalMap={normal}
-      ></meshStandardMaterial>
+        ></meshStandardMaterial>
+    </mesh>
+  );
+}
+function Sun() {
+  const sphere = useRef();
+  const texture = useTexture(
+    "https://media.discordapp.net/attachments/775448139938922540/1281465781934358568/texture0.png?ex=66dbd182&is=66da8002&hm=6e4ca7d2f24a8f50b47852986f35e4d6b70ade128ac12875860455204f2cfa90&=&format=webp&quality=lossless&width=550&height=275"
+  );
+  useFrame((state, delta) => {
+    sphere.current.rotation.y += delta * 0.1;
+  });
+  return (
+    <mesh ref={sphere} position={[1, 1, 500]}>
+      <sphereGeometry args={[20, 64]}></sphereGeometry>
+      <meshBasicMaterial
+        map={texture}
+
+        ></meshBasicMaterial>
     </mesh>
   );
 }
@@ -48,11 +66,11 @@ function Marak() {
   const text = useRef();
 
   // useFrame((state, delta) => {
-  //   text.current.rotation.y += delta * 0.1;
-  // });
-  useFrame((state , delta)=>{
-    text.current.position.x+=2*delta
-  })
+    //   text.current.rotation.y += delta * 0.1;
+    // });
+    useFrame((state, delta) => {
+    text.current.position.x += 2 * delta;
+  });
   return (
     <Text
       ref={text}
@@ -64,26 +82,13 @@ function Marak() {
       bevelEnabled={true}
       bevelSize={0.05}
       bevelThickness={0.2}
-      maxWidth={200} 
+      maxWidth={200}
     >
-     M4R4K3 
-   
+      M4R4K3
     </Text>
   );
 }
 
-function Sun() {
-  const sphere = useRef();
-  useFrame((state, delta) => {
-    sphere.current.rotation.y += delta * 0.1;
-  });
-  return (
-    <mesh ref={sphere} position={[1, 1, 500]}>
-      <sphereGeometry args={[20, 64]}></sphereGeometry>
-      <meshBasicMaterial color={"yellow"}></meshBasicMaterial>
-    </mesh>
-  );
-}
 function Star() {
   const sphere = useRef();
 
@@ -127,7 +132,7 @@ function App() {
   return (
     <>
       <Canvas gl={{ antialias: true }} style={{ background: "black" }}>
-      <PerspectiveCamera makeDefault position={[0, 0, 20]} />
+        <PerspectiveCamera makeDefault position={[0, 0, 20]} />
         <Scene />
       </Canvas>
     </>
