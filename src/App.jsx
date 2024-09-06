@@ -1,8 +1,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
-  MeshWobbleMaterial,
   OrbitControls,
-  useHelper,
+  PerspectiveCamera ,
   useTexture,
   Text
 } from "@react-three/drei";
@@ -16,7 +15,7 @@ function Torus() {
     torus.current.rotation.z += delta *2;
   });
   return (
-    <mesh ref={torus}>
+    <mesh ref={torus} rotation={[Math.PI / 4 , 0, 0]}>
       <torusGeometry  rotateX={0.5} args={[3, 0.01]}></torusGeometry>
       <meshStandardMaterial color={"white"}></meshStandardMaterial>
     </mesh>
@@ -111,7 +110,7 @@ function Scene() {
 
   return (
     <>
-      <OrbitControls></OrbitControls>
+      <OrbitControls maxZoom={"500"}></OrbitControls>
       <directionalLight ref={dref} position={[1, 1, 500]}></directionalLight>
       <Marak />
       <Torus />
@@ -128,6 +127,7 @@ function App() {
   return (
     <>
       <Canvas gl={{ antialias: true }} style={{ background: "black" }}>
+      <PerspectiveCamera makeDefault position={[0, 0, 20]} />
         <Scene />
       </Canvas>
     </>
